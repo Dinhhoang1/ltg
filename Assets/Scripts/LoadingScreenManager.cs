@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-/// <summary>
-/// Quản lý thanh Loading chạy mượt mà theo chuẩn game và tự động chuyển sang Main scene khi tải xong.
-/// </summary>
 public class LoadingScreenManager : MonoBehaviour
 {
     [Header("=== CẤU HÌNH CHUYỂN SCENE ===")]
@@ -45,12 +42,8 @@ public class LoadingScreenManager : MonoBehaviour
         StartCoroutine(LoadSceneRoutine());
     }
 
-    /// <summary>
-    /// Tự động tìm kiếm các phần tử UI trong scene nếu người dùng chưa kéo thủ công
-    /// </summary>
     private void AutoDetectUI()
     {
-        // 1. Tự tìm Image của thanh tiến trình xanh ('load prog')
         if (progressBarImage == null)
         {
             progressBarImage = GetComponent<Image>();
@@ -66,7 +59,7 @@ public class LoadingScreenManager : MonoBehaviour
 
             if (progressBarImage == null)
             {
-                foreach (Image img in Object.FindObjectsByType<Image>(FindObjectsSortMode.None))
+                foreach (Image img in Object.FindObjectsByType<Image>())
                 {
                     string n = img.gameObject.name.ToLower();
                     if (n.Contains("prog") || n.Contains("fill") || n.Contains("bar"))
@@ -78,7 +71,6 @@ public class LoadingScreenManager : MonoBehaviour
             }
         }
 
-        // 2. Tự tìm TextMeshPro hiển thị Loading ('Text (TMP)')
         if (loadingTextTMP == null && legacyLoadingText == null)
         {
             loadingTextTMP = GetComponentInChildren<TextMeshProUGUI>();
@@ -93,7 +85,7 @@ public class LoadingScreenManager : MonoBehaviour
 
             if (loadingTextTMP == null)
             {
-                foreach (TextMeshProUGUI tmp in Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None))
+                foreach (TextMeshProUGUI tmp in Object.FindObjectsByType<TextMeshProUGUI>())
                 {
                     if (tmp.gameObject.name.ToLower().Contains("text") || tmp.text.ToLower().Contains("load"))
                     {
@@ -105,9 +97,6 @@ public class LoadingScreenManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Cấu hình Image sang chế độ Filled để thanh chạy từ trái sang phải
-    /// </summary>
     private void PrepareProgressBar()
     {
         if (progressBarImage != null)
@@ -127,7 +116,6 @@ public class LoadingScreenManager : MonoBehaviour
     {
         string sceneToLoad = !string.IsNullOrWhiteSpace(targetSceneName) ? targetSceneName : "Main scene";
 
-        // Bắt đầu tải ngầm Scene
         AsyncOperation asyncOp = null;
         try
         {
@@ -146,39 +134,32 @@ public class LoadingScreenManager : MonoBehaviour
         float dotTimer = 0f;
         int dotCount = 0;
 
-        // Vòng lặp chạy thanh tiến trình mượt mà
         while (elapsed < loadingDuration || (asyncOp != null && asyncOp.progress < 0.9f))
         {
             elapsed += Time.deltaTime;
             dotTimer += Time.deltaTime;
 
-            // Hiệu ứng đổi dấu chấm: Loading -> Loading. -> Loading.. -> Loading...
             if (dotTimer >= 0.32f)
             {
                 dotTimer = 0f;
                 dotCount = (dotCount + 1) % 4;
             }
 
-            // Tính toán tiến trình giả lập tự nhiên theo thời gian
             float timeRatio = Mathf.Clamp01(elapsed / loadingDuration);
-            // Sử dụng SmoothStep để đầu và cuối mượt mà
             float targetProgress = Mathf.SmoothStep(0f, 1f, timeRatio);
 
-            // Đồng bộ với tiến trình nạp thực tế
             if (asyncOp != null)
             {
                 float realProgress = Mathf.Clamp01(asyncOp.progress / 0.9f);
                 targetProgress = Mathf.Min(targetProgress, realProgress);
             }
 
-            // Tăng dần tiến trình mượt mà, không bị giật cục
             currentProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 1.5f);
             UpdateUI(currentProgress, dotCount);
 
             yield return null;
         }
 
-        // Đẩy tiến trình về tròn 100%
         while (currentProgress < 1.0f)
         {
             currentProgress = Mathf.MoveTowards(currentProgress, 1.0f, Time.deltaTime * 3.0f);
@@ -188,12 +169,10 @@ public class LoadingScreenManager : MonoBehaviour
 
         UpdateUI(1.0f, 3);
 
-        // Chờ nhẹ 0.25 giây để người chơi nhìn thấy thanh đã đầy 100%
         yield return new WaitForSeconds(0.25f);
 
         Debug.Log($"<color=green>[LoadingScreenManager] Đã tải xong 100%! Đang chuyển vào: {sceneToLoad}</color>");
 
-        // Kích hoạt chuyển thẳng vào Scene chính
         if (asyncOp != null)
         {
             asyncOp.allowSceneActivation = true;
@@ -206,13 +185,11 @@ public class LoadingScreenManager : MonoBehaviour
 
     private void UpdateUI(float progress, int dotCount)
     {
-        // 1. Cập nhật độ đầy của thanh xanh
         if (progressBarImage != null)
         {
             progressBarImage.fillAmount = progress;
         }
 
-        // 2. Cập nhật chữ Loading
         string dots = animateDots ? new string('.', dotCount) : "...";
         string displayText = $"Loading{dots}";
 
@@ -232,4 +209,3 @@ public class LoadingScreenManager : MonoBehaviour
         }
     }
 }
-

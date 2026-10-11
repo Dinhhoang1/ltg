@@ -3,10 +3,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-/// <summary>
-/// Script quản lý nút Classic ở màn hình chính (Main scene)
-/// Khi người chơi nhấn vào nút, sẽ có hiệu ứng nảy đàn hồi (Punch effect) và chuyển sang scene Classicmode.
-/// </summary>
 public class ClassicModeButton : MonoBehaviour
 {
     [Header("=== CẤU HÌNH CHUYỂN SCENE ===")]
@@ -22,8 +18,17 @@ public class ClassicModeButton : MonoBehaviour
     public bool enablePunchEffect = true;
     [Tooltip("Âm thanh khi bấm nút (tùy chọn)")]
     public AudioClip clickSound;
+    [Range(0f, 1f)] [Tooltip("Âm lượng tiếng bấm nút")]
+    public float clickSoundVolume = 0.8f;
     public AudioSource audioSource;
 
+    [Header("=== NHẠC NỀN MAIN SCENE (BGM) ===")]
+    [Tooltip("Nhạc nền cho màn hình chính (tùy chọn)")]
+    public AudioClip mainBgmMusic;
+    [Range(0f, 1f)] [Tooltip("Âm lượng nhạc nền Main Scene")]
+    public float mainBgmVolume = 0.5f;
+
+    private AudioSource bgmSource;
     private bool isTransitioning = false;
 
     private void Awake()
@@ -34,24 +39,28 @@ public class ClassicModeButton : MonoBehaviour
     private void Start()
     {
         SetupButton();
+
+        if (mainBgmMusic != null)
+        {
+            bgmSource = gameObject.AddComponent<AudioSource>();
+            bgmSource.clip = mainBgmMusic;
+            bgmSource.loop = true;
+            bgmSource.playOnAwake = false;
+            bgmSource.volume = mainBgmVolume;
+            bgmSource.Play();
+        }
     }
 
-    /// <summary>
-    /// Tự động tìm kiếm và cài đặt sự kiện click cho nút Classic
-    /// </summary>
     private void SetupButton()
     {
-        // 1. Nếu chưa gán classicButton:
         if (classicButton == null)
         {
-            // Nếu chính GameObject này chứa Image hoặc Button (gắn trực tiếp vào nút mode 2)
             if (GetComponent<Image>() != null || GetComponent<Button>() != null)
             {
                 classicButton = gameObject;
             }
             else
             {
-                // Tự động tìm đối tượng mang tên 'mode 2' hoặc 'Classic'
                 Transform found = transform.Find("mode 2");
                 if (found == null) found = transform.Find("Classic");
                 if (found == null)
@@ -68,7 +77,6 @@ public class ClassicModeButton : MonoBehaviour
             }
         }
 
-        // 2. Cài đặt component Button và sự kiện OnClick
         if (classicButton != null)
         {
             Button btn = classicButton.GetComponent<Button>();
@@ -77,14 +85,12 @@ public class ClassicModeButton : MonoBehaviour
                 btn = classicButton.AddComponent<Button>();
             }
 
-            // Đảm bảo Image có bật raycastTarget để nhận click chuột / chạm ngón tay
             Image img = classicButton.GetComponent<Image>();
             if (img != null)
             {
                 img.raycastTarget = true;
             }
 
-            // Gắn sự kiện OnClick an toàn
             btn.onClick.RemoveListener(OnClassicButtonClicked);
             btn.onClick.AddListener(OnClassicButtonClicked);
         }
@@ -94,24 +100,19 @@ public class ClassicModeButton : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Hàm xử lý khi người chơi bấm nút Classic
-    /// Có thể gọi qua code hoặc gắn trực tiếp vào sự kiện OnClick trên Inspector
-    /// </summary>
     public void OnClassicButtonClicked()
     {
         if (isTransitioning) return;
 
-        // Phát âm thanh click nếu có
         if (clickSound != null)
         {
             if (audioSource != null)
             {
-                audioSource.PlayOneShot(clickSound);
+                audioSource.PlayOneShot(clickSound, clickSoundVolume);
             }
             else
             {
-                AudioSource.PlayClipAtPoint(clickSound, Camera.main != null ? Camera.main.transform.position : Vector3.zero);
+                AudioSource.PlayClipAtPoint(clickSound, Camera.main != null ? Camera.main.transform.position : Vector3.zero, clickSoundVolume);
             }
         }
 
@@ -134,7 +135,6 @@ public class ClassicModeButton : MonoBehaviour
         {
             Vector3 originalScale = rect.localScale;
 
-            // 1. Thu nhỏ nhẹ (nhấn nút)
             float elapsed = 0f;
             float duration = 0.07f;
             while (elapsed < duration)
@@ -144,7 +144,6 @@ public class ClassicModeButton : MonoBehaviour
                 yield return null;
             }
 
-            // 2. Bật nảy lên một chút
             elapsed = 0f;
             duration = 0.09f;
             while (elapsed < duration)
@@ -157,7 +156,6 @@ public class ClassicModeButton : MonoBehaviour
             rect.localScale = originalScale;
         }
 
-        // Chờ nhẹ 0.05s để mắt người kịp thấy hiệu ứng nảy
         yield return new WaitForSecondsRealtime(0.05f);
 
         LoadSceneDirectly();
@@ -178,4 +176,3 @@ public class ClassicModeButton : MonoBehaviour
         }
     }
 }
-

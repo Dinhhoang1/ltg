@@ -992,10 +992,18 @@ MonoBehaviour:
   highScoreTextTMP: {fileID: 0}
   legacyScoreText: {fileID: 0}
   audioSource: {fileID: 0}
-  placeSound: {fileID: 0}
-  clearSound: {fileID: 0}
-  comboSound: {fileID: 0}
-  gameOverSound: {fileID: 0}
+  placeSound: {fileID: 8300000, guid: 142b029b2ece928468276ed22cf20e7b, type: 3}
+  placeSoundVolume: 1
+  clearSound: {fileID: 8300000, guid: 77e93ec8660c98c4391ccac9cb2abd8e, type: 3}
+  clearSoundVolume: 0.561
+  comboSound: {fileID: 8300000, guid: 4ed611f9037762a4e843762d39f12889, type: 3}
+  comboSoundVolume: 0.561
+  gameOverSound: {fileID: 8300000, guid: 265ed3739c0ce624a80d593268c7533d, type: 3}
+  gameOverSoundVolume: 0.572
+  buttonClickSound: {fileID: 8300000, guid: 69eb255e3a33fc346bbd98ec60f35f6f, type: 3}
+  buttonClickVolume: 0.561
+  bgmMusic: {fileID: 8300000, guid: 18ac8abab227687418b2e2403663c3c4, type: 3}
+  bgmVolume: 0.231
   gameOverPanel: {fileID: 1586370387}
   retryButton: {fileID: 1783892984}
   homeButton: {fileID: 1076912218}

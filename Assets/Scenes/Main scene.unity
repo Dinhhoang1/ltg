@@ -820,8 +820,11 @@ MonoBehaviour:
   targetSceneName: Classicmode
   classicButton: {fileID: 2010019124}
   enablePunchEffect: 1
-  clickSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 69eb255e3a33fc346bbd98ec60f35f6f, type: 3}
+  clickSoundVolume: 0.8
   audioSource: {fileID: 0}
+  mainBgmMusic: {fileID: 8300000, guid: a7d8e932b104c995ef14d02188fa6c3e, type: 3}
+  mainBgmVolume: 0.225
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
