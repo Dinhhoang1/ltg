@@ -8,7 +8,7 @@ public partial class BlockBlastGame : MonoBehaviour
 {
     public static BlockBlastGame Instance { get; private set; }
 
-    [Header("=== 1. CÀI ĐẶT BÀN CỜ 8x8 ===")]
+    [Header("1. CÀI ĐẶT BÀN CỜ 8x8")]
     [Tooltip("Kéo đối tượng bàn cờ Image (1) vào đây")]
     public RectTransform boardContainer;
     [Tooltip("Khoảng cách đệm từ viền bàn cờ vào trong")]
@@ -20,11 +20,11 @@ public partial class BlockBlastGame : MonoBehaviour
     [Tooltip("Màu ô trống khi chưa có khối (Alpha = 0 để trong suốt)")]
     public Color emptyCellColor = new Color(0, 0, 0, 0);
 
-    [Header("=== 2. CÁC KHỐI 1x1 ĐẦU VÀO ===")]
+    [Header("2. CÁC KHỐI 1x1 ĐẦU VÀO")]
     [Tooltip("Kéo tất cả các ảnh 1x1 từ thư mục Asset2 vào đây")]
     public Sprite[] block1x1Sprites;
 
-    [Header("=== 3. CÁC Ô CHỨA KHỐI (SLOTS) ===")]
+    [Header("3. CÁC Ô CHỨA KHỐI")]
     [Tooltip("Kéo 3 slot con của 'put block' vào đây")]
     public Transform[] spawnSlots;
     [Tooltip("Tỉ lệ thu nhỏ khi khối nằm chờ trong slot")]
@@ -34,13 +34,13 @@ public partial class BlockBlastGame : MonoBehaviour
     [Tooltip("Độ lệch Y để khối bay cao hơn ngón tay/chuột, không bị che tầm nhìn")]
     public float dragYOffset = 135f;
 
-    [Header("=== 4. HIỂN THỊ ĐIỂM SỐ ===")]
+    [Header("4. HIỂN THỊ ĐIỂM SỐ")]
     [Tooltip("Kéo đối tượng Text (TMP) hiển thị điểm vào đây")]
     public TextMeshProUGUI scoreTextTMP;
     public TextMeshProUGUI highScoreTextTMP;
     public Text legacyScoreText;
 
-    [Header("=== 5. ÂM THANH & NHẠC NỀN ===")]
+    [Header("5. ÂM THANH & NHẠC NỀN")]
     public AudioSource audioSource;
     public AudioClip placeSound;
     [Range(0f, 1f)] [Tooltip("Âm lượng tiếng đặt khối")]
@@ -61,7 +61,7 @@ public partial class BlockBlastGame : MonoBehaviour
     [Range(0f, 1f)] [Tooltip("Âm lượng nhạc nền BGM")]
     public float bgmVolume = 0.5f;
 
-    [Header("=== 6. ĐIỀU KHIỂN NÚT BẤM & GIAO DIỆN GAME OVER ===")]
+    [Header("6. ĐIỀU KHIỂN NÚT BẤM & GIAO DIỆN GAME OVER")]
     [Tooltip("Kéo bảng GameOver (Gmeovera) vào đây")]
     public GameObject gameOverPanel;
     [Tooltip("Kéo nút hoặc đối tượng Chơi Lại (Retry) vào đây")]

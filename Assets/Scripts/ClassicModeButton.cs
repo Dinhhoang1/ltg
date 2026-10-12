@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class ClassicModeButton : MonoBehaviour
 {
-    [Header("=== CẤU HÌNH CHUYỂN SCENE ===")]
+    [Header("CẤU HÌNH CHUYỂN SCENE")]
     [Tooltip("Tên Scene sẽ tải khi bấm nút (mặc định là 'Classicmode')")]
     public string targetSceneName = "Classicmode";
 
-    [Header("=== GIAO DIỆN NÚT BẤM (TÙY CHỌN) ===")]
+    [Header("GIAO DIỆN NÚT BẤM (TÙY CHỌN)")]
     [Tooltip("Kéo đối tượng nút Classic vào đây. Nếu gắn trực tiếp script này vào nút hoặc để trống, script sẽ tự động tìm kiếm đối tượng 'mode 2' trong Scene.")]
     public GameObject classicButton;
 
-    [Header("=== HIỆU ỨNG & ÂM THANH ===")]
+    [Header("HIỆU ỨNG & ÂM THANH")]
     [Tooltip("Bật hiệu ứng nảy nút khi click")]
     public bool enablePunchEffect = true;
     [Tooltip("Âm thanh khi bấm nút (tùy chọn)")]
@@ -22,7 +22,7 @@ public class ClassicModeButton : MonoBehaviour
     public float clickSoundVolume = 0.8f;
     public AudioSource audioSource;
 
-    [Header("=== NHẠC NỀN MAIN SCENE (BGM) ===")]
+    [Header("NHẠC NỀN MAIN SCENE")]
     [Tooltip("Nhạc nền cho màn hình chính (tùy chọn)")]
     public AudioClip mainBgmMusic;
     [Range(0f, 1f)] [Tooltip("Âm lượng nhạc nền Main Scene")]

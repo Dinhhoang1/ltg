@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class LoadingScreenManager : MonoBehaviour
 {
-    [Header("=== CẤU HÌNH CHUYỂN SCENE ===")]
+    [Header("CẤU HÌNH CHUYỂN SCENE")]
     [Tooltip("Tên Scene sẽ chuyển đến sau khi load xong (mặc định là 'Main scene')")]
     public string targetSceneName = "Main scene";
 
-    [Header("=== GIAO DIỆN THANH LOADING ===")]
+    [Header(" GIAO DIỆN THANH LOADING")]
     [Tooltip("Kéo đối tượng Image màu xanh 'load prog' vào đây (nếu để trống script sẽ tự động tìm kiếm)")]
     public Image progressBarImage;
 
